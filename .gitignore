@@ -73,6 +73,7 @@ lerna-debug.log*
 reports/
 coverage/
 .nyc_output/
+todo.txt
 
 
 # ==========================================
