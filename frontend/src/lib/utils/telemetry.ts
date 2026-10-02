@@ -1,7 +1,8 @@
 export async function trackEvent(eventType: string, payload: Record<string, any>) {
   try {
-    // Replace with your Express Gateway telemetry URL or relative path if proxied
-    await fetch('/api/telemetry', {
+    const baseUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:4000';
+    
+    await fetch(`${baseUrl}/api/telemetry`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
