@@ -1,0 +1,41 @@
+services:
+  efficiency-estimator:
+    build:
+      context: ./services/efficiency-estimator
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      - PORT=8000
+    env_file:
+      - ./services/efficiency-estimator/.env
+    restart: unless-stopped
+
+  gcode-generator:
+    build:
+      context: ./services/gcode-generator
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"
+    environment:
+      - PORT=8000
+    env_file:
+      - ./services/gcode-generator/.env
+    restart: unless-stopped
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - ESTIMATOR_SERVICE_URL=http://efficiency-estimator:8000
+      - GCODE_SERVICE_URL=http://gcode-generator:8000
+    env_file:
+      - ./gateway/.env
+    depends_on:
+      - efficiency-estimator
+      - gcode-generator
+    restart: unless-stopped
