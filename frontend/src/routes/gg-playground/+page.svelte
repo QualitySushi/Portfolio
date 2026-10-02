@@ -5,7 +5,7 @@
   import HistoryView from '../../lib/components/generator/HistoryView.svelte';
 
   // Dynamic base URL supporting local dev and Vercel production deployment
-  const API_BASE = import.meta.env.PUBLIC_API_URL 
+  const API_BASE = import.meta.env.PUBLIC_API_URL
     ? `${import.meta.env.PUBLIC_API_URL}/api/gcode` 
     : 'http://localhost:4000/api/gcode';
 

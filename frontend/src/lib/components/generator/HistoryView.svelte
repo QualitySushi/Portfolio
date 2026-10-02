@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
 
   let {
-    backendUrl = import.meta.env.PUBLIC_API_URL 
+    backendUrl = import.meta.env.PUBLIC_API_URL
       ? `${import.meta.env.PUBLIC_API_URL}/api/gcode` 
       : 'http://localhost:4000/api/gcode',
     userId = '',
