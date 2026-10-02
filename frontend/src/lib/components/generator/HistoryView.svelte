@@ -2,7 +2,9 @@
   import { onMount } from 'svelte';
 
   let {
-    backendUrl = 'http://localhost:4000/api/gcode',
+    backendUrl = import.meta.env.PUBLIC_API_URL 
+      ? `${import.meta.env.PUBLIC_API_URL}/api/gcode` 
+      : 'http://localhost:4000/api/gcode',
     userId = '',
     onSelectGeneration = (generation: Generation) => {}
   } = $props<{

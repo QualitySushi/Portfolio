@@ -6,7 +6,8 @@
 
   onMount(async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/analytics');
+      const baseUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await fetch(`${baseUrl}/api/analytics`);
       const data = await res.json();
       telemetryData = data;
     } catch (err) {

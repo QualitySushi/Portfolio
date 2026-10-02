@@ -4,6 +4,11 @@
   import PathVisualizer from '../../lib/components/generator/PathVisualizer.svelte';
   import HistoryView from '../../lib/components/generator/HistoryView.svelte';
 
+  // Dynamic base URL supporting local dev and Vercel production deployment
+  const API_BASE = import.meta.env.PUBLIC_API_URL 
+    ? `${import.meta.env.PUBLIC_API_URL}/api/gcode` 
+    : 'http://localhost:4000/api/gcode';
+
   // State declared correctly with Svelte 5 $state runes
   let loading = $state(false);
   let saving = $state(false);
@@ -24,7 +29,7 @@
     console.log('Outgoing Payload:', payload);
 
     try {
-      const endpoint = 'http://localhost:4000/api/gcode/generate';
+      const endpoint = `${API_BASE}/generate`;
       console.log(`Sending POST request to: ${endpoint}`);
 
       const response = await fetch(endpoint, {
@@ -74,7 +79,7 @@
     saveMessage = '';
 
     try {
-      const endpoint = 'http://localhost:4000/api/gcode/save';
+      const endpoint = `${API_BASE}/save`;
       console.log(`Sending save request to: ${endpoint}`);
 
       const response = await fetch(endpoint, {

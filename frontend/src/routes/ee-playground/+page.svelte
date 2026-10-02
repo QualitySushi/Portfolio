@@ -4,6 +4,11 @@
   import BatchResults from '../../lib/components/estimator/BatchResults.svelte';
   import BatchHistoryView from '../../lib/components/estimator/BatchHistoryView.svelte';
 
+  // Dynamic base URL supporting local dev and Vercel production deployment
+  const API_BASE = import.meta.env.PUBLIC_API_URL 
+    ? `${import.meta.env.PUBLIC_API_URL}/api/estimator` 
+    : 'http://localhost:4000/api/estimator';
+
   let simulationMode = $state<'single' | 'batch' | 'history'>('single');
   let params = $state({
     module_width: 100.0,
@@ -45,7 +50,7 @@
     loading = true;
     errorMessage = '';
     try {
-      const res = await fetch(`http://localhost:4000/api/estimator/batch-jobs/${runId}`);
+      const res = await fetch(`${API_BASE}/batch-jobs/${runId}`);
       if (!res.ok) throw new Error(await res.text());
       historicalRunData = $state.snapshot(await res.json());
       batchResults = historicalRunData;
@@ -65,7 +70,7 @@
       ...batchResults
     };
 
-    const res = await fetch('http://localhost:4000/api/estimator/batch-jobs', {
+    const res = await fetch(`${API_BASE}/batch-jobs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -83,7 +88,7 @@
     if (simulationMode === 'single') {
       batchResults = null;
       try {
-        const res = await fetch('http://localhost:4000/api/estimator/simulate', {
+        const res = await fetch(`${API_BASE}/simulate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(params)
@@ -104,7 +109,7 @@
           step_size: Number(batchConfig.step_size),
           num_simulations: Number(batchConfig.num_simulations)
         };
-        const res = await fetch('http://localhost:4000/api/estimator/batch-simulate', {
+        const res = await fetch(`${API_BASE}/batch-simulate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)

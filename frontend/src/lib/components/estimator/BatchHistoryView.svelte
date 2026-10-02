@@ -2,7 +2,9 @@
   import { onMount } from 'svelte';
 
   let { 
-    backendUrl = 'http://localhost:4000/api/estimator',
+    backendUrl = import.meta.env.PUBLIC_API_URL 
+      ? `${import.meta.env.PUBLIC_API_URL}/api/estimator` 
+      : 'http://localhost:4000/api/estimator',
     onSelectRun = (runId: string) => {}
   } = $props<{
     backendUrl?: string;
